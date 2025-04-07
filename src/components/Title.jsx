@@ -9,7 +9,8 @@ const QuadrantImage = () => {
     "Making money isn't a dream, it's here",
     "Your Competitive Edge Is Here",
     "Easier Discoverability",
-    "Lower Fees "
+    "Lower Fees ",
+    "Unified Commerce"
   ];
 
   const [currentTextIndex, setCurrentTextIndex] = useState(0);

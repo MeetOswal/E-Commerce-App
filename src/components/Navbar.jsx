@@ -11,10 +11,11 @@ const Navbar = ({ fromPage }) => {
     'Art',
     'Beverages', 
     'Clothing',
+    'Fragrances',
     'Food',
     'Furniture',
     'Jewelry',
-    'Pottery',
+    'Kitchenware',
     'Soap'
   ];
 
