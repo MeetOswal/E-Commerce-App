@@ -6,12 +6,13 @@ const ContactPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const recipient = "rtisanalservice@rtisanalmarket.com"; 
     const form = e.target;
     const name = form.name.value;
     const subject = form.subject.value;
     const message = form.message.value;
     
-    const mailtoLink = `mailto:osw.meet00@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\n\nMessage: ${message}`)}`;
+    const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\n\nMessage: ${message}`)}`;
     window.open(mailtoLink, "_blank");
     form.reset();
   };
