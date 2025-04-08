@@ -1,19 +1,16 @@
 .navbar {
   position: fixed;
-  display: flex;
   width: 100%;
-  flex-direction: column;
-  align-items: flex-start;
   height: 73px;
-  background-color: #222222; /* Added a background color for better visibility */
-  padding: 0 10px; /* Added some padding for better spacing */
-  box-sizing: border-box; /* Ensures padding is included in width */
+  background-color: #222222;
+  padding: 0 10px;
+  box-sizing: border-box;
   z-index: 2;
 }
 
 .navbar-grid {
   display: grid;
-  grid-template-columns: auto repeat(10, 1fr);
+  grid-template-columns: auto repeat(10, 1fr) auto;
   height: 100%;
   align-items: center;
   width: 100%;
@@ -22,13 +19,13 @@
 .brand-container {
   display: flex;
   align-items: center;
-  gap: 8px; /* Fixed gap between logo and text */
-  padding-right: 10px; /* Fixed space after the brand */
+  gap: 8px;
+  padding-right: 10px;
   height: 100%;
 }
 
 .navbar-logo {
-  height: auto; /* Fixed logo size */
+  height: auto;
   width: auto;
 }
 
@@ -36,43 +33,24 @@
   max-width: 100px;
   font-size: 17px;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
-  color: #DAA520;
+  font-family: "Inter", sans-serif;
+  color: #daa520;
   overflow: wrap;
-  transition: all 0.3s ease;
 }
 
-@media (max-width: 750px) {
-  .brand-name {
-    max-width: 80px; /* Smaller max width on mobile */
-    font-size: clamp(10px, 3vw, 15px); /* More aggressive scaling */
-  }
-}
-  
-
-@media (max-width : 1200px) {
-  .nav-item {
-    display: none;
-  }
-}
-
-.navbar-col {
+.navbar-col,
+.hamburger-col,
+.button-col {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
-  width: 100%;
 }
 
 .nav-item {
   color: white;
-  text-align: center;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family:  'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 17px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 }
 
 .home-button {
@@ -81,55 +59,130 @@
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  background: #DAA520;
+  background: #daa520;
   color: #222222;
   border: none;
   cursor: pointer;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 17px;
   white-space: nowrap;
   transition: all 100ms linear;
 }
 
+.hamburger-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+/* Sidebar on the right */
+.sidebar.right {
+  left: auto;
+  right: -300px;
+  width: 250px;
+}
+
+.sidebar.right.open {
+  right: 0;
+  left: auto;
+}
+
+.sidebar {
+  position: fixed;
+  top: 73px;
+  height: calc(100vh - 73px);
+  background-color: #222222;
+  transition: all 0.3s ease;
+  z-index: 10;
+  overflow-y: auto;
+}
+
+.sidebar-content {
+  padding: 20px;
+}
+
+.sidebar-item {
+  color: white;
+  padding: 15px 0;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  border-bottom: 1px solid #444;
+  cursor: pointer;
+}
+
+.sidebar-item:hover {
+  color: #daa520;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 73px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+}
+
+@media (max-width: 1350px) {
+  .nav-item {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1150px) {
+  .nav-item {
+    display: none;
+  }
+
+  .navbar-grid {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .hamburger-col {
+    justify-content: flex-end;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 750px) {
+  .brand-name {
+    max-width: 80px;
+    font-size: clamp(10px, 3vw, 15px);
+  }
+}
+
 @keyframes blink {
-  0% {
-    background-color: #DAA520;
+  0%,
+  100% {
+    background-color: #daa520;
     color: #222222;
   }
   50% {
     background-color: white;
-    color: #DAA520;
-  }
-  100% {
-    background-color: #DAA520;
-    color: #222222;
+    color: #daa520;
   }
 }
 
- .home-button.blinking {
-  animation: blink 1s infinite step-end; 
+.home-button.blinking {
+  animation: blink 1s infinite step-end;
 }
 
-.home-button:hover{
-  border-radius: 20px;
-  background: linear-gradient(0deg, 
-              rgba(0, 0, 0, 0.30) 0%, 
-              rgba(0, 0, 0, 0.30) 100%), #DAA520;
+.home-button:hover {
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    ),
+    #daa520;
 }
 
 .home-button.clicked,
 .home-button:active {
-  border-radius: 20px;
   background: #222222;
-  color: #DAA520;
-}
-
-.home-button,
-.home-button:hover,
-.home-button.clicked,
-.home-button:active {
-  transition-property: all;
-  transition-duration: 100ms;
-  transition-timing-function: linear;
+  color: #daa520;
 }

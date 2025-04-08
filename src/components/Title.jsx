@@ -5,8 +5,8 @@ import logo from "../assets/Logo2.png";
 
 const QuadrantImage = () => {
   const texts = [
-    "Roll out your products for the world to buy",
-    "Making money isn't a dream, it's here",
+    "Roll Out Your Products For The World To Buy",
+    "Making Money Isn't A Dream, It's Here",
     "Your Competitive Edge Is Here",
     "Easier Discoverability",
     "Lower Fees ",

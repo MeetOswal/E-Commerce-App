@@ -1,7 +1,7 @@
 .positioned-image-container {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 40%;
   transform: translate(-50%, -50%); 
   width: 579px;
   height: 592px;
@@ -127,6 +127,7 @@
   .positioned-image-container {
     width: 500px;
     height: 510px;
+    left : 50%;
   }
   
   .countdown-title {

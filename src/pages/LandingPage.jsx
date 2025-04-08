@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import './LandingPage.css';
 import Navbar from "../components/Navbar";
 import Title from "../components/Title"
-import Contact from "../components/Contact";
 import Wheel from "../components/Wheel";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
   const [isShortScreen, setIsShortScreen] = useState(false);
@@ -27,7 +27,7 @@ const LandingPage = () => {
       <div className="page-content">
         <Navbar fromPage="landingPage"/>
         <Title/>
-        <Contact/>
+        {/* <Contact/> */}
         <Wheel />
       </div>
       <div className="copyright">

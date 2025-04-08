@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import RegisterPage from './pages/RegisterPage' // Make sure to create this component
 import LandingPage from './pages/LandingPage'
+import PricingPage from './pages/PricingPage'
+import ContactPage from './pages/ContactPage'
 import './index.css'
 
 createRoot(document.getElementById('root')).render(
@@ -10,7 +12,9 @@ createRoot(document.getElementById('root')).render(
     <Router>
       <Routes>
       <Route path="/" element={<LandingPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/pricing" element={<PricingPage />} />
+      <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </Router>
   </StrictMode>,

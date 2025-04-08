@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Form.css';
-import hendecagonImage from '../assets/Polygon.png';
-const HendecagonForm = () => {
 
+const HendecagonForm = ({ selectedPlan }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -12,6 +11,12 @@ const HendecagonForm = () => {
     telephone: "",
     pricingCategory: "",
   });
+
+  useEffect(() => {
+    if (selectedPlan) {
+      setFormData({...formData, ['pricingCategory'] : selectedPlan})
+    }
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,45 +41,42 @@ const HendecagonForm = () => {
   };
 
   return (
-    <div className="form-container">
-      <img 
-        src={hendecagonImage} 
-        alt="Hendecagon Background" 
-        className="hendecagon-image"
-      />
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="name-fields">
-          <input type="text" name='firstName' placeholder="First Name" value={formData.firstName} onChange={handleChange} required />
-          <input type="text" name='lastName' placeholder="Last Name" value={formData.lastName} onChange={handleChange} required/>
-        </div>
-        
-        <input type="text" name='companyName' placeholder="Company Name" value={formData.companyName} onChange={handleChange} required />
-        
-        <select name='category' className="form-select" value={formData.category} onChange={handleChange} required>
-          <option value="">Select Category</option>
-          <option value="art">Art</option>
-          <option value="beverages">Beverages</option>
-          <option value="clothing">Clothing</option>
-          <option value="food">Food</option>
-          <option value="jewelry">Jewelry</option>
-          <option value="furniture">Furniture</option>
-          <option value="pottery">Pottery</option>
-          <option value="soap">Soap</option>
-        </select>
-        
-        <input name='email' type="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required />
-        <input name='telephone' type="tel" placeholder="Telephone" value={formData.telephone} onChange={ handleChange} required/>
-        
-        <select name = 'pricingCategory' className="form-select" value={formData.pricingCategory} onChange={handleChange} required>
-          <option value="" className='option'>Pricing Category</option>
-          <option value="monthly" className='option'>Monthly</option>
-          <option value="annually" className='option'>Annually</option>
-        </select>
-        
-        <button 
-        type="submit"
-        >Submit</button>
-      </form>
+    <div className="form-wrapper">
+      <h1 className="form-title">Register to Grow Your Business with Us</h1>
+      <div className="form-container">
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="name-fields">
+            <input type="text" name='firstName' placeholder="First Name" value={formData.firstName} onChange={handleChange} required />
+            <input type="text" name='lastName' placeholder="Last Name" value={formData.lastName} onChange={handleChange} required/>
+          </div>
+          
+          <input type="text" name='companyName' placeholder="Company Name" value={formData.companyName} onChange={handleChange} required />
+          
+          <select name='category' className="form-select" value={formData.category} onChange={handleChange} required>
+            <option value="">Select Category</option>
+            <option value="art">Art</option>
+            <option value="beverages">Beverages</option>
+            <option value="clothing">Clothing</option>
+            <option value="food">Food</option>
+            <option value="jewelry">Jewelry</option>
+            <option value="furniture">Furniture</option>
+            <option value="pottery">Pottery</option>
+            <option value="soap">Soap</option>
+          </select>
+          
+          <input name='email' type="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required />
+          <input name='telephone' type="tel" placeholder="Telephone" value={formData.telephone} onChange={ handleChange} required/>
+          
+          <select name = 'pricingCategory' className="form-select" value={formData.pricingCategory} onChange={handleChange} required>
+            <option value="" className='option'>Pricing Category</option>
+            <option value="Monthly Plan" className='option'>Monthly</option>
+            <option value="Annual Plan" className='option'>Annually</option>
+            <option value="Pay As You Go" className='option'>Pay as You Go</option>
+          </select>
+          
+          <button type="submit">Submit</button>
+        </form>
+      </div>
     </div>
   );
 };
