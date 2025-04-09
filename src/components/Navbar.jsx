@@ -48,7 +48,7 @@ const Navbar = ({ fromPage }) => {
         <div className="navbar-grid">
           <div className="brand-container">
             <img src={logo} alt="Market Logo" className="navbar-logo" />
-            <span className="brand-name">Artisanal Market</span>
+            <span className="brand-name">Rtisanal Market</span>
           </div>
 
           {isWideScreen ? (
