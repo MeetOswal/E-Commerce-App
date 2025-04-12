@@ -23,8 +23,8 @@ const Navbar = ({ fromPage }) => {
 
   const navItems = [
     "Art",
-    "Beverages",
     "Clothing",
+    "Electronics",
     "Fragrances",
     "Food",
     "Furniture",
