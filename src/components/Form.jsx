@@ -68,10 +68,10 @@ const HendecagonForm = ({ selectedPlan }) => {
           <input name='telephone' type="tel" placeholder="Telephone" value={formData.telephone} onChange={ handleChange} required/>
           
           <select name = 'pricingCategory' className="form-select" value={formData.pricingCategory} onChange={handleChange} required>
-            <option value="" className='option'>Pricing Category</option>
-            <option value="Monthly Plan" className='option'>Monthly</option>
-            <option value="Annual Plan" className='option'>Annually</option>
-            <option value="Pay As You Go" className='option'>Pay as You Go</option>
+            <option value="">Pricing Category</option>
+            <option value="Monthly Plan">Monthly</option>
+            <option value="Annual Plan">Annually</option>
+            <option value="Pay As You Go">Pay as You Go</option>
           </select>
           
           <button type="submit">Submit</button>

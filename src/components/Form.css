@@ -85,6 +85,12 @@
   padding: 10px;
 }
 
+.form-select option:hover {
+  background: linear-gradient(0deg, 
+                rgba(0, 0, 0, 0.30) 0%, 
+                rgba(0, 0, 0, 0.30) 100%), #DAA520;
+}
+
 select.form-select {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -177,3 +183,4 @@ select.form-select {
     padding: 10px;
   }
 }
+

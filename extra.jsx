@@ -14,26 +14,15 @@ const Navbar = ({ fromPage }) => {
 
   // Sub-categories data
   const subCategories = {
-    Art: ["Coming Soon"],
-    Electronics: ["Coming Soon"],
-    Fashion : ["Athleisure", "Clothing", "Fitness","Jewelry", "Sneakers"],
-    Fragrances: ["Coming Soon"],
-    Food: ["Beverages"],
-    Furniture: ["Coming Soon"],
-    Kitchenware: ["Coming Soon"],
+    Art: ["Paintings", "Sculptures", "Photography", "Digital Art"],
+    Clothing: ["Men", "Women", "Kids", "Accessories"],
+    Electronics: ["Phones", "Laptops", "Tablets", "Accessories"],
+    Fragrances: ["Perfume", "Cologne", "Body Spray", "Essential Oils"],
+    Food: ["Organic", "Bakery", "Dairy", "Snacks"],
+    Furniture: ["Living Room", "Bedroom", "Office", "Outdoor"],
+    Jewelry: ["Necklaces", "Rings", "Bracelets", "Earrings"],
+    Kitchenware: ["Cookware", "Cutlery", "Appliances", "Storage"],
   };
-
-  const navItems = [
-    "Art",
-    "Electronics",
-    "Fashion",
-    "Fragrances",
-    "Food",
-    "Furniture",
-    "Kitchenware",
-    "Pricing",
-    "Contact",
-  ];
 
   useEffect(() => {
     const handleResize = () => {
@@ -61,6 +50,18 @@ const Navbar = ({ fromPage }) => {
     };
   }, []);
 
+  const navItems = [
+    "Art",
+    "Clothing",
+    "Electronics",
+    "Fragrances",
+    "Food",
+    "Furniture",
+    "Jewelry",
+    "Kitchenware",
+    "Pricing",
+    "Contact",
+  ];
 
   const handleNavigation = () => {
     navigate(fromPage === "registerPage" ? "/" : "/register");
@@ -72,7 +73,7 @@ const Navbar = ({ fromPage }) => {
   };
 
   const toggleDropdown = (item, event) => {
-    if (event) event.stopPropagation();
+    event.stopPropagation();
     if (activeDropdown === item) {
       setActiveDropdown(null);
     } else {
@@ -103,7 +104,7 @@ const Navbar = ({ fromPage }) => {
 
           {isWideScreen ? (
             navItems.map((item, index) => (
-              <div key={index} className="navbar-col">
+              <div key={index} className="navbar-col" ref={dropdownRef}>
                 {item === "Pricing" ? (
                   <span
                     className="nav-item"
@@ -121,10 +122,10 @@ const Navbar = ({ fromPage }) => {
                     {item}
                   </span>
                 ) : (
-                  <div className="dropdown-container" ref={dropdownRef}>
+                  <div className="dropdown-container">
                     <span
                       className="nav-item dropdown-trigger"
-                      onClick={(e) => toggleDropdown(item, e)}
+                      onClick={() => toggleDropdown(item)}
                       style={{ cursor: "pointer" }}
                     >
                       {item}
@@ -190,7 +191,7 @@ const Navbar = ({ fromPage }) => {
                   {item}
                 </span>
               ) : (
-                <div className="mobile-dropdown-container">
+                <div className="mobile-dropdown-container" ref={dropdownRef}>
                   <div
                     onClick={(e) => handleCategoryClick(item, e)}
                     style={{ cursor: "pointer" }}
