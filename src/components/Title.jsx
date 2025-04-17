@@ -22,7 +22,7 @@ const QuadrantImage = () => {
     seconds: 0,
   });
 
-  const launchDate = new Date("2025-04-26T00:00:00");
+  const launchDate = new Date("2025-05-08T00:00:00");
 
   useEffect(() => {
     const calculateTimeLeft = () => {
