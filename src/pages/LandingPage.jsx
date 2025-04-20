@@ -3,6 +3,7 @@ import './LandingPage.css';
 import Navbar from "../components/Navbar";
 import Title from "../components/Title"
 import Wheel from "../components/Wheel";
+import AutoCarousel from "../components/VerticalCarousel";
 import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
@@ -25,6 +26,7 @@ const LandingPage = () => {
   return (
     <div className={`landing-page ${isShortScreen ? 'short-screen' : ''}`}>
       <div className="page-content">
+        <AutoCarousel />
         <Navbar fromPage="landingPage"/>
         <Title/>
         {/* <Contact/> */}

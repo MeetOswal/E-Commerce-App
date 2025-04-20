@@ -14,7 +14,6 @@ const Wheel = () => {
   const [isTallScreen, setIsTallScreen] = useState(false);
   const heightBreakpoint = 1350;
 
-  const [rightPositionIndex, setRightPositionIndex] = useState(0);
   const [showAltImage, setShowAltImage] = useState([
     false,
     false,
@@ -40,22 +39,22 @@ const Wheel = () => {
   const offset = isTallScreen ? 80 : 50;
   const circleSize = isTallScreen ? 230 : 180;
 
+  const totalTime = 16000; // 16s for a full rotation
+  const updateInterval = totalTime / 4; // 4 positions
+  
   useEffect(() => {
+    let index = 0;
     const interval = setInterval(() => {
-      const currentIndex = rightPositionIndex;
-      
       setShowAltImage(prev => {
         const newImages = [...prev];
-        newImages[currentIndex] = !newImages[currentIndex];
+        newImages[index] = !newImages[index];
         return newImages;
       });
-      
-      setRightPositionIndex(prev => (prev + 1) % 4);
-    }, 5000);
+      index = (index + 1) % 4;
+    }, updateInterval);
   
     return () => clearInterval(interval);
-  }, [rightPositionIndex]); // Add dependency here
-
+  }, []);
 
   const wheelStyle = {
     position : 'relative',
@@ -68,7 +67,7 @@ const Wheel = () => {
     display : 'flex',
     justifyContent: "center",
     alignItems: "center",
-    animation: "rotateWheel 20s linear infinite",
+    animation: "rotateWheel 16s linear infinite",
     transformOrigin: "center center",
   };
 
@@ -79,7 +78,7 @@ const Wheel = () => {
     height: `${circleSize}px`,
     borderRadius: "50%",
     border: "5px solid #440C86",
-    animation: "counterRotate 20s linear infinite",
+    animation: "counterRotate 16s linear infinite",
     transformOrigin: "center center",
   };
 

@@ -1,7 +1,7 @@
 .positioned-image-container {
   position: absolute;
   top: 50%;
-  left: 40%;
+  left: 50%;
   transform: translate(-50%, -50%); 
   width: 579px;
   height: 592px;
