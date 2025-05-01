@@ -7,15 +7,15 @@ import img4 from "../assets/img4.png";
 import img5 from "../assets/img5.png";
 import img6 from "../assets/img6.png";
 
-const items = [img1, img2, img3, img4, img5, img6];
 
 export default function VerticalCarousel() {
+  const items = [img1, img2, img3, img4, img5, img6];
   return (
     <div className="vertical-carousel-container">
       <div className="vertical-carousel-track">
         {[...items, ...items].map((img, index) => (
           <div className="vertical-carousel-card" key={index}>
-          <img src={img} alt={`Item ${index}`} className="card-image" />
+          <img src={img} alt={`Item ${index}`} className="card-image" loading="lazy" />
           <div className="card-text">Popular Product</div>
         </div>
         ))}
