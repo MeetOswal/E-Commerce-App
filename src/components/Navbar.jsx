@@ -14,31 +14,17 @@ const Navbar = ({ fromPage }) => {
 
   // Sub-categories data
   const subCategories = {
-    Art: ["Coming Soon"],
-    Electronics: ["Coming Soon"],
-    Fashion : ["Athleisure", "Clothing", "Fitness","Jewelry", "Sneakers"],
-    Fragrances: ["Coming Soon"],
+    Fashion: ["Athleisure", "Clothing", "Fitness", "Jewelry", "Sneakers"],
     Food: ["Beverages"],
-    Furniture: ["Coming Soon"],
-    Kitchenware: ["Coming Soon"],
+    Jewelry: ["Coming Soon"],
   };
 
-  const navItems = [
-    "Art",
-    "Electronics",
-    "Fashion",
-    "Fragrances",
-    "Food",
-    "Furniture",
-    "Kitchenware",
-    "Pricing",
-    "Contact",
-  ];
+  const navItems = ["Fashion", "Food", "Jewelry", "Pricing", "Contact"];
 
   useEffect(() => {
     const handleResize = () => {
-      setIsWideScreen(window.innerWidth > 1150);
-      if (window.innerWidth > 1150) {
+      setIsWideScreen(window.innerWidth > 1000);
+      if (window.innerWidth > 1000) {
         setSidebarOpen(false);
       }
     };
@@ -60,7 +46,6 @@ const Navbar = ({ fromPage }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
 
   const handleNavigation = () => {
     navigate(fromPage === "registerPage" ? "/" : "/register");
@@ -96,62 +81,69 @@ const Navbar = ({ fromPage }) => {
     <>
       <nav className="navbar">
         <div className="navbar-grid">
-          <div className="brand-container">
-            <img src={logo} alt="Market Logo" className="navbar-logo" />
-            <span className="brand-name">Rtisanal Market</span>
-          </div>
-
           {isWideScreen ? (
-            navItems.map((item, index) => (
-              <div key={index} className="navbar-col">
-                {item === "Pricing" ? (
-                  <span
-                    className="nav-item"
-                    onClick={() => navigate("/pricing")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {item}
-                  </span>
-                ) : item === "Contact" ? (
-                  <span
-                    className="nav-item"
-                    onClick={() => navigate("/contact")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {item}
-                  </span>
-                ) : (
-                  <div className="dropdown-container" ref={dropdownRef}>
+            <>
+              <div className="brand-container">
+                <img src={logo} alt="Market Logo" className="navbar-logo" />
+                <span className="brand-name">Rtisanal Market</span>
+              </div>
+              {navItems.map((item, index) => (
+                <div key={index} className="navbar-col">
+                  {item === "Pricing" ? (
                     <span
-                      className="nav-item dropdown-trigger"
-                      onClick={(e) => toggleDropdown(item, e)}
+                      className="nav-item"
+                      onClick={() => navigate("/pricing")}
                       style={{ cursor: "pointer" }}
                     >
                       {item}
                     </span>
-                    {activeDropdown === item && (
-                      <div className="dropdown-menu">
-                        {subCategories[item]?.map((subItem, subIndex) => (
-                          <div
-                            key={subIndex}
-                            className="dropdown-item"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            {subItem}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))
+                  ) : item === "Contact" ? (
+                    <span
+                      className="nav-item"
+                      onClick={() => navigate("/contact")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {item}
+                    </span>
+                  ) : (
+                    <div className="dropdown-container" ref={dropdownRef}>
+                      <span
+                        className="nav-item dropdown-trigger"
+                        onClick={(e) => toggleDropdown(item, e)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {item}
+                      </span>
+                      {activeDropdown === item && (
+                        <div className="dropdown-menu">
+                          {subCategories[item]?.map((subItem, subIndex) => (
+                            <div
+                              key={subIndex}
+                              className="dropdown-item"
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              {subItem}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </>
           ) : (
-            <div className="hamburger-col">
-              <button className="hamburger-button" onClick={toggleSidebar}>
-                ☰
-              </button>
-            </div>
+            <>
+              <div className="hamburger-col">
+                <button className="hamburger-button" onClick={toggleSidebar}>
+                  ☰
+                </button>
+              </div>
+              <div className="brand-container">
+                <img src={logo} alt="Market Logo" className="navbar-logo" />
+                <span className="brand-name">Rtisanal Market</span>
+              </div>
+            </>
           )}
 
           <div className="button-col">
@@ -175,8 +167,8 @@ const Navbar = ({ fromPage }) => {
       </nav>
 
       {/* Right Sidebar */}
-      <div 
-        className={`sidebar right ${sidebarOpen ? "open" : ""}`} 
+      <div
+        className={`sidebar right ${sidebarOpen ? "open" : ""}`}
         ref={sidebarRef}
       >
         <div className="sidebar-content">
@@ -222,10 +214,13 @@ const Navbar = ({ fromPage }) => {
       </div>
 
       {sidebarOpen && (
-        <div className="sidebar-overlay" onClick={() => {
-          setSidebarOpen(false);
-          setActiveDropdown(null);
-        }} />
+        <div
+          className="sidebar-overlay"
+          onClick={() => {
+            setSidebarOpen(false);
+            setActiveDropdown(null);
+          }}
+        />
       )}
     </>
   );

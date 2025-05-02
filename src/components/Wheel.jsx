@@ -4,10 +4,10 @@ import image1 from "../assets/Intersect1.svg";
 import image2 from "../assets/Intersect2.svg";
 import image3 from "../assets/Intersect3.svg";
 import image4 from "../assets/Intersect4.svg";
-import altimage1 from "../assets/Intersect5.svg";
-import altimage2 from "../assets/Intersect6.svg";
-import altimage3 from "../assets/Intersect7.svg";
-import altimage4 from "../assets/Intersect8.svg";
+import altimage1 from "../assets/Intersect1.svg";
+import altimage2 from "../assets/Intersect2.svg";
+import altimage3 from "../assets/Intersect5.svg";
+import altimage4 from "../assets/Intersect6.svg";
 
 const Wheel = () => {
 
