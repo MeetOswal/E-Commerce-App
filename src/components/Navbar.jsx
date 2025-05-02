@@ -14,16 +14,23 @@ const Navbar = ({ fromPage }) => {
 
   // Sub-categories data
   const subCategories = {
-    Fashion : ["Athleisure", "Clothing", "Fitness", "Sneakers"],
+    Art: ["Coming Soon"],
+    Electronics: ["Coming Soon"],
+    Fashion : ["Athleisure", "Clothing", "Fitness","Jewelry", "Sneakers"],
+    Fragrances: ["Coming Soon"],
     Food: ["Beverages"],
-    Jewelry: ["Coming Soon"],
+    Furniture: ["Coming Soon"],
     Kitchenware: ["Coming Soon"],
   };
 
   const navItems = [
+    "Art",
+    "Electronics",
     "Fashion",
+    "Fragrances",
     "Food",
-    "Jewelry",
+    "Furniture",
+    "Kitchenware",
     "Pricing",
     "Contact",
   ];
