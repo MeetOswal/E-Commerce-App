@@ -21,7 +21,7 @@ export default function VerticalCarousel() {
       <div className="vertical-carousel-track">
         {[...items, ...items].map((img, index) => (
           <div className="vertical-carousel-card" key={index}>
-          <img src={img} alt={`Item ${index}`} className="card-image" loading="lazy" />
+          <img src={img} alt={`Item ${index}`} className="card-image" />
           <div className="card-text">Popular Product</div>
         </div>
         ))}
