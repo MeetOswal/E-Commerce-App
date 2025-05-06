@@ -1,8 +1,0 @@
-{
-    "name": "ecommerce-app",
-    "private": true,
-    "workspaces": [
-      "apps/frontend",
-      "apps/admin"
-    ]
-  }
