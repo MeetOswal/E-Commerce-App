@@ -27,6 +27,7 @@ jobs:
       - name: Build project
         run: |
           cd apps/frontend
+          export PATH=$(npm bin):$PATH
           npm run build
 
       - name: Configure AWS credentials
