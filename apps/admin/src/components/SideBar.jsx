@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./Sidebar.css";
 import { useNavigate } from "react-router-dom";
 import './SideBar.css';
 const Sidebar = ({ isMobile, isSidebarOpen, toggleSidebar }) => {
