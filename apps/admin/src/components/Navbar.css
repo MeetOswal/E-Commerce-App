@@ -1,0 +1,95 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 73px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    box-sizing: border-box;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.hamburger {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #daa520;
+}
+
+/* Brand/logo section */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-right: 10px;
+    height: 100%;
+}
+
+.navbar-logo {
+    height: auto;
+    width: auto;
+}
+
+.navbar-brand-name {
+    max-width: 100px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+    color: #daa520;
+    overflow: wrap;
+}
+
+/* Logout button */
+.logout-button {
+    display: inline-flex;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background: #daa520;
+    color: #222222;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+    font-size: 17px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+.logout-button:hover {
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    ),
+    #daa520;
+}
+
+.logout-button:active {
+    background: #222222;
+    color: #daa520;
+}
+
+/* Mobile styles */
+@media (max-width: 650px) {
+    .hamburger {
+        display: block;
+    }
+    
+    .sidebar:not(.mobile) {
+        display: none;
+    }
+}

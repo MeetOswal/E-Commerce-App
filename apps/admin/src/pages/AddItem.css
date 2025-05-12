@@ -1,0 +1,178 @@
+body {
+  font-family: "Inter", sans-serif;
+  color: #222222;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+.add-item-container {
+  margin-top: 100px;
+  margin-left: 250px;
+}
+
+@media screen and (max-width: 900px) {
+  .add-item-container {
+    margin-left: 150px;
+  }
+  
+}
+
+@media screen and (max-width: 650px) {
+  .add-item-container {
+    margin-left: 0px;
+  }
+  
+}
+
+.add-item-form {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.add-item-title,
+.variant-title,
+.option-title {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.add-item-form-group {
+  margin-bottom: 20px;
+}
+
+.add-item-label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+
+
+.add-item-input,
+.add-item-textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.add-item-textarea {
+  resize: vertical;
+}
+
+.variant-container {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #fafafa;
+}
+
+.variant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.option-container {
+  margin-bottom: 10px;
+  border: 1px dashed #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.add-button,
+.remove-button {
+  background-color: #daa520;
+  color: #222222;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.add-button:hover,
+.remove-button:hover {
+  background-color: #c4911b;
+}
+
+.submit-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.submit-button {
+  background-color: #daa520;
+  color: black;
+  border: none;
+  padding: 12px;
+  width: 20%;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: center;
+}
+
+.submit-button:hover {
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.3) 100%
+  ),
+  #daa520;
+}
+
+.submit-button:active {
+  background: #222222;
+  color: #daa520;
+}
+.add-item-form-group-file {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px; /* Adds space between the label and button */
+  }
+
+.add-file-label{
+    display: block;
+    font-size: 16px;
+}
+
+.add-item-input-file {
+  background-color: #daa520;
+  color: #222222;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: background-color 0.2s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+.add-item-input-file:hover {
+  background-color: #c4911b;
+}

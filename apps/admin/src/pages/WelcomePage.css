@@ -1,0 +1,32 @@
+.welcome-container {
+    /* display: 'flex',
+    justify-content: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    height: 'calc(100vh - 73px)', // Account for navbar height
+    marginLeft: isMobile ? '0' : '250px',
+    paddingTop: '73px', // Account for navbar height
+    transition: 'margin-left 0.3s ease' */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: calc(100vh - 73px); /* Account for navbar height */
+    margin-left: 250px;
+    padding-top: 73px; /* Account for navbar height */
+    transition: margin-left 0.3s ease;
+}
+
+@media screen and (max-width: 900px) {
+    .welcome-container {
+        margin-left: 150px; /* Adjust margin for smaller screens */
+    }
+    
+}
+
+@media screen and (max-width: 650px) {
+    .welcome-container {
+        margin-left: 0; /* Remove margin for mobile screens */
+    }
+    
+}

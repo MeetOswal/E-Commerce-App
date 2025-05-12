@@ -34,10 +34,39 @@ exports.handler = async (event) => {
     return await handleAddItem(event);
   }
 
+  if (path === "/api/check-auth" && method === "GET") {
+    return checkAuth(event);
+  }
   return {
     statusCode: 404,
     body: JSON.stringify({ message: `${path}` }),
   };
+};
+
+const checkAuth = (event) => {
+  try {
+    const cookies =
+      event?.cookies || event.headers?.cookie || event.headers?.Cookie || "";
+    const token = cookies.find((cookie) => cookie.trim().startsWith("token="));
+
+    if (!token) {
+      return response(
+        401,
+        `Unauthorized: No token provided ${JSON.stringify(eventBody)}`
+      );
+    }
+    const jwtToken = token.split("=")[1];
+    let decoded;
+    try {
+      decoded = jwt.verify(jwtToken, JWT_SECRET);
+      return response(200, "authenticated: true");
+    } catch (err) {
+      console.error("JWT verification failed:", err);
+      return response(401, "Unauthorized: Invalid token");
+    }
+  } catch (error) {
+    return response(404, `Cookie Not Found ${error}`);
+  }
 };
 
 // Login Handler
@@ -69,13 +98,13 @@ async function handleLogin(event) {
     }
 
     const token = jwt.sign({ username, role: rows[0].user_role }, JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "24h",
     });
 
     return {
       statusCode: 200,
       headers: {
-        "Set-Cookie": `token=${token}; HttpOnly; Secure; Path=/; Max-Age=3600`,
+        "Set-Cookie": `token=${token}; HttpOnly; Secure; Path=/; Max-Age=3600; SameSite=None`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ message: "OK" }),
@@ -91,7 +120,7 @@ function handleLogout() {
   return {
     statusCode: 200,
     headers: {
-      "Set-Cookie": `token=deleted; HttpOnly; Secure; Path=/; Max-Age=0`,
+      "Set-Cookie": `token=; HttpOnly; Secure; Path=/; Max-Age=0; SameSite=None`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ message: "Logged out" }),
@@ -100,19 +129,19 @@ function handleLogout() {
 
 async function handleAddItem(event) {
   try {
-    const cookies = event?.cookies || event.headers?.cookie || event.headers?.Cookie || '';
-    const token = cookies.find((cookie) => cookie.trim().startsWith('token='));
+    const cookies =
+      event?.cookies || event.headers?.cookie || event.headers?.Cookie || "";
+    const token = cookies.find((cookie) => cookie.trim().startsWith("token="));
 
     if (!token) {
-      return response(401, `Unauthorized: No token provided ${JSON.stringify(eventBody)}`);
+      return response(401, `Unauthorized: Login required`);
     }
-    const jwtToken = token.split('=')[1];
+    const jwtToken = token.split("=")[1];
     let decoded;
     try {
       decoded = jwt.verify(jwtToken, JWT_SECRET);
     } catch (err) {
-      console.error('JWT verification failed:', err);
-      return response(401, 'Unauthorized: Invalid token');
+      return response(401, "Unauthorized: Invalid token, please login again");
     }
 
     const connection = await mysql.createConnection({
@@ -129,7 +158,7 @@ async function handleAddItem(event) {
 
     if (rows.length === 0) {
       await connection.end();
-      return response(403, 'Forbidden: User does not have admin access');
+      return response(403, "Forbidden: User does not have admin access");
     }
 
     // Parse the request body
@@ -138,10 +167,15 @@ async function handleAddItem(event) {
 
     const itemId = uuidv4();
 
-    await connection.execute(
-      `INSERT INTO items (item_id, title, item_description, seller, category, item_status) VALUES (?, ?, ?, ?, ?, ?)`,
-      [itemId, title, description, seller, category, itemStatus]
-    );
+    try {
+      await connection.execute(
+        `INSERT INTO items (item_id, title, item_description, seller, category, item_status) VALUES (?, ?, ?, ?, ?, ?)`,
+        [itemId, title, description, seller, category, itemStatus]
+      );
+    } catch (error) {
+      await connection.end();
+      return response(500, `Failed to insert item into database ${error}`);
+    }
 
     for (const variant of variants) {
       const { price, photo, quantity, variantStatus, attributes } = variant;
@@ -162,22 +196,36 @@ async function handleAddItem(event) {
         await s3Client.send(putObjectCommand);
       } catch (uploadErr) {
         console.error("Error uploading to S3:", uploadErr);
+        await connection.end();
         return response(500, "Failed to upload image to S3");
       }
 
       const photoUrl = `https://${BUCKET_NAME}.s3.${REGION}.amazonaws.com/${photoKey}`;
 
-      await connection.execute(
-        `INSERT INTO variant (item_id, variant_id, price, photo, quantity, variant_status) VALUES (?, ?, ?, ?, ?, ?)`,
-        [itemId, variantId, price, photoUrl, quantity, variantStatus]
-      );
+      try {
+        await connection.execute(
+          `INSERT INTO variant (item_id, variant_id, price, photo, quantity, variant_status) VALUES (?, ?, ?, ?, ?, ?)`,
+          [itemId, variantId, price, photoUrl, quantity, variantStatus]
+        );
+      } catch (error) {
+        await connection.end();
+        return response(500, `Failed to insert variant into database ${error}`);
+      }
 
       for (const attribute of attributes) {
-        const { category: attrCategory, categoryValue } = attribute;
-        await connection.execute(
-          `INSERT INTO variant_attribute (item_id, variant_id, category, category_value) VALUES (?, ?, ?, ?)`,
-          [itemId, variantId, attrCategory, categoryValue]
-        );
+        const { attrCategory, categoryValue } = attribute;
+        try {
+          await connection.execute(
+            `INSERT INTO variant_attribute (item_id, variant_id, category, category_value) VALUES (?, ?, ?, ?)`,
+            [itemId, variantId, attrCategory, categoryValue]
+          );
+        } catch (error) {
+          await connection.end();
+          return response(
+            500,
+            `Failed to insert variant attribute into database ${error}`
+          );
+        }
       }
     }
     await connection.end();
