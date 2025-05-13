@@ -21,7 +21,9 @@ const Sidebar = ({ isMobile, isSidebarOpen, toggleSidebar }) => {
     return (
         <div className={`sidebar ${isMobile ? 'mobile' : ''} ${isSidebarOpen ? 'open' : ''}`}>
             <div className="main-content">
-                <div className="sidebar-item" onClick={(e) => navigate("/additem")}>Add Item</div>
+                <div className="sidebar-item" onClick={(e) => navigate("/addfashion")}>Add Fashion</div>
+                <div className="sidebar-item" onClick={(e) => navigate("/addfood")}>Add Food</div>
+                <div className="sidebar-item" onClick={(e) => navigate("/addjewelry")}>Add Jewelry</div>
                 <div className="sidebar-item">View Orders</div>
             </div>
         </div>

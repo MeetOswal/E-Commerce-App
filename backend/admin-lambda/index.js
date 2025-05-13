@@ -129,6 +129,7 @@ function handleLogout() {
 
 async function handleAddItem(event) {
   try {
+    // Authentication and authorization checks (same as before)
     const cookies =
       event?.cookies || event.headers?.cookie || event.headers?.Cookie || "";
     const token = cookies.find((cookie) => cookie.trim().startsWith("token="));
@@ -161,79 +162,84 @@ async function handleAddItem(event) {
       return response(403, "Forbidden: User does not have admin access");
     }
 
-    // Parse the request body
+    // Parse the request body with new schema
     const body = JSON.parse(event.body);
-    const { title, description, seller, category, itemStatus, variants } = body;
+    const {
+      title,
+      description,
+      seller,
+      category,
+      itemStatus,
+      price,
+      photos,
+      attributes
+    } = body;
 
     const itemId = uuidv4();
 
+    // Start transaction
+    await connection.beginTransaction();
+
     try {
+      // Insert main item
       await connection.execute(
-        `INSERT INTO items (item_id, title, item_description, seller, category, item_status) VALUES (?, ?, ?, ?, ?, ?)`,
-        [itemId, title, description, seller, category, itemStatus]
+        `INSERT INTO items (item_id, title, item_description, seller, category, price, item_status) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [itemId, title, description, seller, category, price, itemStatus]
       );
-    } catch (error) {
-      await connection.end();
-      return response(500, `Failed to insert item into database ${error}`);
-    }
 
-    for (const variant of variants) {
-      const { price, photo, quantity, variantStatus, attributes } = variant;
+      // Insert photos
+      for (const [index, photo] of photos.entries()) {
+        const photoId = uuidv4();
+        const photoKey = `items/${itemId}/photos/${photoId}.jpg`;
+        const photoBuffer = Buffer.from(photo, "base64");
 
-      const variantId = uuidv4();
-
-      const photoBuffer = Buffer.from(photo, "base64");
-      const photoKey = `items/${itemId}/variants/${variantId}.jpg`;
-
-      try {
-        const putObjectCommand = new PutObjectCommand({
-          Bucket: BUCKET_NAME,
-          Key: photoKey,
-          Body: photoBuffer,
-          ContentType: "image/jpeg",
-        });
-
-        await s3Client.send(putObjectCommand);
-      } catch (uploadErr) {
-        console.error("Error uploading to S3:", uploadErr);
-        await connection.end();
-        return response(500, "Failed to upload image to S3");
-      }
-
-      const photoUrl = `https://${BUCKET_NAME}.s3.${REGION}.amazonaws.com/${photoKey}`;
-
-      try {
-        await connection.execute(
-          `INSERT INTO variant (item_id, variant_id, price, photo, quantity, variant_status) VALUES (?, ?, ?, ?, ?, ?)`,
-          [itemId, variantId, price, photoUrl, quantity, variantStatus]
-        );
-      } catch (error) {
-        await connection.end();
-        return response(500, `Failed to insert variant into database ${error}`);
-      }
-
-      for (const attribute of attributes) {
-        const { attrCategory, categoryValue } = attribute;
         try {
+          // Upload to S3
+          const putObjectCommand = new PutObjectCommand({
+            Bucket: BUCKET_NAME,
+            Key: photoKey,
+            Body: photoBuffer,
+            ContentType: "image/jpeg",
+          });
+          await s3Client.send(putObjectCommand);
+
+          // Store photo URL in database
+          const photoUrl = `https://${BUCKET_NAME}.s3.${REGION}.amazonaws.com/${photoKey}`;
           await connection.execute(
-            `INSERT INTO variant_attribute (item_id, variant_id, category, category_value) VALUES (?, ?, ?, ?)`,
-            [itemId, variantId, attrCategory, categoryValue]
+            `INSERT INTO photos (item_id, photo_id, photo) VALUES (?, ?, ?)`,
+            [itemId, photoId, photoUrl]
           );
-        } catch (error) {
-          await connection.end();
-          return response(
-            500,
-            `Failed to insert variant attribute into database ${error}`
-          );
+        } catch (uploadErr) {
+          console.error("Error uploading photo to S3:", uploadErr);
+          throw new Error("Failed to upload image to S3");
         }
       }
-    }
-    await connection.end();
 
-    return response(200, "Item added successfully");
+      for (const att of attributes){
+        for (const value of att.values) {
+          if (value.trim() !== "") {
+            await connection.execute(
+              `INSERT INTO attributes (item_id, category, category_value) VALUES (?, '${att.attribute}', ?)`,
+              [itemId, value]
+            );
+          }
+        }
+      }
+
+      // Commit transaction if all operations succeed
+      await connection.commit();
+      await connection.end();
+
+      return response(200, "Item added successfully");
+    } catch (error) {
+      // Rollback transaction if any operation fails
+      await connection.rollback();
+      await connection.end();
+      return response(500, `Failed to add item: ${error.message}`);
+    }
   } catch (err) {
     console.error(err);
-    return response(500, err);
+    return response(500, err.message || "Internal server error");
   }
 }
 

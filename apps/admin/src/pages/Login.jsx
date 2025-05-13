@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Login.css'; // Import the CSS file
 import Navbar from '../components/Navbar';
-import Sidebar from '../components/SideBar';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const Login = () => {
