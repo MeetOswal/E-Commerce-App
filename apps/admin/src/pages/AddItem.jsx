@@ -214,7 +214,7 @@ const AddItem = () => {
       title: itemData.title,
       description: itemData.description,
       seller: itemData.seller,
-      category: itemData.category,
+      category: itemData.category.toLowerCase(),
       itemStatus: itemData.itemStatus,
       variants: updatedVariants,
     };
@@ -359,6 +359,8 @@ const AddItem = () => {
                 <input
                   className="add-item-input"
                   type="number"
+                  step="0.01"
+                   pattern="^\d+(\.\d{1,2})?$"
                   value={variant.price}
                   onChange={(e) =>
                     handleVariantChange(variantIndex, "price", e.target.value)
@@ -390,7 +392,7 @@ const AddItem = () => {
                 {/* Hidden file input */}
                 <input
                   type="file"
-                  accept="image/jpeg"
+                  accept="image/*"
                   ref={fileInputRef}
                   onChange={(e) =>
                     handleFileChange(variantIndex, e.target.files[0])
