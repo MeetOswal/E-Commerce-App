@@ -1,20 +1,41 @@
 // PricingPage.js (updated)
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import "./PricingPage.css";
 import SubscriptionCard from "../components/SubscriptionCard";
-
+import axios from "axios";
 const PricingPage = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const chechAuth = async () => {
+      try {
+        const response = await axios.get(
+          "https://xuujlvb9tj.execute-api.us-east-1.amazonaws.com/api/check-auth",
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(response.data);
+        setIsLoggedIn(true);
+      } catch (error) {
+        setIsLoggedIn(false);
+        console.error("Error fetching data:", error);
+      }
+    };
+    chechAuth();
+  },[])
+
   return (
     <div className="pricing-page">
-      <Navbar fromPage="registerPage" />
+      <Navbar fromPage="pricingPage" isLoggedIn={isLoggedIn}/>
       
       <div className="pricing-content">
         {/* First Row - Title */}
         <div className="pricing-title-row">
           <h1 className="pricing-title">Pricing</h1>
           <p className="pricing-subtitle">
-            Flexible pricing for every stage of your journey — get started today
+            Want to sell your products? Choose a plan that suits you best!
           </p>
         </div>
 

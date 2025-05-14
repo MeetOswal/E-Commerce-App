@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import './ContactPage.css';
-
+import axios from 'axios';
 const ContactPage = () => {
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  useEffect(() => {
+    const chechAuth = async () => {
+      try {
+        const response = await axios.get(
+          "https://xuujlvb9tj.execute-api.us-east-1.amazonaws.com/api/check-auth",
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(response.data);
+        setIsLoggedIn(true);
+      } catch (error) {
+        setIsLoggedIn(false);
+        console.error("Error fetching data:", error);
+      }
+    };
+    chechAuth();
+  }, [])
   const handleSubmit = (e) => {
     e.preventDefault();
     const recipient = "rtisanalservice@rtisanalmarket.com"; 
@@ -19,11 +37,11 @@ const ContactPage = () => {
 
   return (
     <div className="contact-page">
-      <Navbar fromPage="registerPage"/>
+      <Navbar fromPage="contactPage" isLoggedIn = {isLoggedIn}/>
       <div className="contact-container">
         <h1 className="contact-title">Have A Question? Send Us A Message</h1>
         <form className="contact-form" onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className="contact-form-group">
             <input 
               type="text" 
               id="name" 
@@ -31,9 +49,9 @@ const ContactPage = () => {
               placeholder='Name' 
               required 
               className="gold-input"
-            />
+            />  
           </div>
-          <div className="form-group">
+          <div className="contact-form-group">
             <input 
               type="text" 
               id="subject" 
@@ -43,7 +61,7 @@ const ContactPage = () => {
               className="gold-input"
             />
           </div>
-          <div className="form-group">
+          <div className="contact-form-group">
             <textarea 
               id="message" 
               name="message" 

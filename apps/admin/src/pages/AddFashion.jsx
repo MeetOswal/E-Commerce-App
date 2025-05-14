@@ -195,10 +195,10 @@ const AddFashion = () => {
   
       // Prepare the data to be sent in the POST request
       const requestData = {
-        title: itemData.title,
-        description: itemData.description,
-        seller: itemData.seller,
-        category: itemData.category.toLowerCase(),
+        title: itemData.title.trim(),
+        description: itemData.description.trim(),
+        seller: itemData.seller.trim(),
+        category: itemData.category.toLowerCase().trim(),
         itemStatus: itemData.itemStatus,
         price: itemData.price,
         photos: photosBase64, // Now sending an array of photos
@@ -207,7 +207,7 @@ const AddFashion = () => {
             values : nonEmptySizes
           },
           {attribute : 'color',
-            values : itemData.color}
+            values : nonEmptyColors}
         ]
       };
       

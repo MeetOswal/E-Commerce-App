@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/Logo.png";
 import "./Navbar.css";
-
-const Navbar = ({ fromPage }) => {
+import axios from "axios";
+const Navbar = ({ fromPage, isLoggedIn }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 1150);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -14,9 +14,9 @@ const Navbar = ({ fromPage }) => {
 
   // Sub-categories data
   const subCategories = {
-    Fashion: ["Athleisure", "Clothing", "Fitness", "Jewelry", "Sneakers"],
-    Food: ["Beverages"],
-    Jewelry: ["Coming Soon"],
+    Fashion: ["Elegant", "Hip and Fly", "Active Wear", "Lingerie"],
+    Food: ["Jams", "Spreads", "Honey"],
+    Jewelry: ["Rings", "Necklaces", "Earrings"],
   };
 
   const navItems = ["Fashion", "Food", "Jewelry", "Pricing", "Contact"];
@@ -30,10 +30,19 @@ const Navbar = ({ fromPage }) => {
     };
 
     const handleClickOutside = (event) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+      const isDropdownItem = event.target.closest('.dropdown-item, .mobile-dropdown-item');
+      
+      const isSidebarItem = event.target.closest('.sidebar-item');
+  
+      if (sidebarRef.current && 
+          !sidebarRef.current.contains(event.target) &&
+          !isSidebarItem) {
         setSidebarOpen(false);
       }
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      
+      if (dropdownRef.current && 
+          !dropdownRef.current.contains(event.target) &&
+          !isDropdownItem) {
         setActiveDropdown(null);
       }
     };
@@ -47,8 +56,32 @@ const Navbar = ({ fromPage }) => {
     };
   }, []);
 
-  const handleNavigation = () => {
-    navigate(fromPage === "registerPage" ? "/" : "/register");
+  const handleNavigation = async() => {
+    if (fromPage === "accountPage" && isLoggedIn) {
+      //handle logout
+      try {
+        const response = await axios.post(
+          "https://xuujlvb9tj.execute-api.us-east-1.amazonaws.com/api/logout",
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+        if (response.status === 200) {
+          // console.log("Logout successful");
+          window.location.reload();
+        }
+      } catch (error) {
+          console.log(error);
+          navigate("/account")
+      }
+    }else{
+      navigate(fromPage === "accountPage" ? "/" : "/account");
+    }
+    
   };
 
   const toggleSidebar = () => {
@@ -65,6 +98,14 @@ const Navbar = ({ fromPage }) => {
     }
   };
 
+  const handleDropdownCategoryClick = (subItem) => {
+    
+    const formattedSubItem = subItem.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/category/${formattedSubItem}`);
+    setActiveDropdown(null);
+    setSidebarOpen(false);
+  };
+
   const handleCategoryClick = (item, event) => {
     if (item === "Pricing") {
       navigate("/pricing");
@@ -76,14 +117,14 @@ const Navbar = ({ fromPage }) => {
       toggleDropdown(item, event);
     }
   };
-
+  
   return (
     <>
       <nav className="navbar">
         <div className="navbar-grid">
           {isWideScreen ? (
             <>
-              <div className="brand-container">
+              <div className="brand-container" onClick={(e) => navigate("/")}>
                 <img src={logo} alt="Market Logo" className="navbar-logo" />
                 <span className="brand-name">Rtisanal Market</span>
               </div>
@@ -120,7 +161,11 @@ const Navbar = ({ fromPage }) => {
                             <div
                               key={subIndex}
                               className="dropdown-item"
-                              onClick={() => setActiveDropdown(null)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                console.log("Clicked subitem:", subItem);
+                                handleDropdownCategoryClick(subItem);
+                              }}
                             >
                               {subItem}
                             </div>
@@ -139,7 +184,7 @@ const Navbar = ({ fromPage }) => {
                   ☰
                 </button>
               </div>
-              <div className="brand-container">
+              <div onClick={(e) => navigate("/")} className="brand-container">
                 <img src={logo} alt="Market Logo" className="navbar-logo" />
                 <span className="brand-name">Rtisanal Market</span>
               </div>
@@ -151,17 +196,17 @@ const Navbar = ({ fromPage }) => {
               className={`home-button ${
                 isClicked
                   ? "clicked"
-                  : fromPage === "registerPage"
-                  ? ""
-                  : "blinking"
+                  : fromPage === "landingPage"
+                  ? "blinking"
+                  : ""
               }`}
               onClick={handleNavigation}
               onMouseDown={() => setIsClicked(true)}
               onMouseUp={() => setIsClicked(false)}
               onMouseLeave={() => setIsClicked(false)}
             >
-              {fromPage === "registerPage" ? "Home" : "Register"}
-            </button>
+              {fromPage === "accountPage" ? (isLoggedIn ? "Logout" : "Home") : isLoggedIn ? "Account" : "Sign In"}
+            </button> 
           </div>
         </div>
       </nav>
@@ -197,8 +242,7 @@ const Navbar = ({ fromPage }) => {
                           className="mobile-dropdown-item"
                           onClick={(e) => {
                             e.stopPropagation();
-                            setActiveDropdown(null);
-                            setSidebarOpen(false);
+                            handleDropdownCategoryClick(subItem);
                           }}
                         >
                           {subItem}

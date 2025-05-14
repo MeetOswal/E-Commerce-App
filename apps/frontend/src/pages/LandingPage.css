@@ -56,7 +56,7 @@
 }
 
 /* Additional media query for height */
-@media (max-height: 649px) {
+@media (max-height: 100px) {
   .landing-page {
     overflow-y: auto;
   }

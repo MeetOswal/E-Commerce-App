@@ -1,0 +1,156 @@
+/* Base card styles - Mobile First Approach */
+.item-card {
+    width: 150px; /* Smaller default for mobile */
+    height: 225px; /* 300px * 0.75 */
+    background-color: rgba(255, 255, 255, 0.7); 
+    border-radius: 8px;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    overflow: hidden;
+    margin: 0 auto; /* Center cards in grid */
+  }
+  
+  .item-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Image styles */
+  .item-card__image {
+    width: 100%;
+    height: 70%; /* Maintain same ratio */
+    object-fit: contain;
+    margin: 3px 0;
+    border-radius: 4px;
+  }
+  
+  /* Content container */
+  .item-card__content {
+    width: 100%;
+    height: 20%;
+    padding-top: 5px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  /* Title styles */
+  .item-card__title {
+    color: #222;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    line-height: 1.1;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+  
+  /* Price styles */
+  .item-card__price {
+    color: #222;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin: 2px 0 0 0;
+}
+
+.item-card__price::before {
+  content: '$';
+  font-size: 0.9em;
+  margin-right: 2px;
+}
+  
+  /* Button styles */
+  .item-card__button {
+    width: 90%;
+    height: 10%;
+    border-radius: 100px;
+    background: #222;
+    color: #DAA520;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem; /* Smaller font for mobile */
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+    margin-bottom: 5px;
+    padding: 8px 0; /* Added padding for better touch */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Medium devices (tablets, 768px and up) */
+  @media (min-width: 768px) {
+    .item-card {
+      width: 180px;
+      height: 270px;
+    }
+    
+    .item-card__title {
+      font-size: 1rem;
+    }
+    
+    .item-card__price {
+      font-size: 0.8rem;
+    }
+    
+    .item-card__button {
+      font-size: 0.9rem;
+    }
+  }
+  
+  /* Large devices (desktops, 992px and up) */
+  @media (min-width: 992px) {
+    .item-card {
+      width: 200px; /* Original size */
+      height: 300px;
+    }
+    
+    .item-card__title {
+      font-size: 1.1rem;
+    }
+    
+    .item-card__price {
+      font-size: 1.2rem;
+    }
+    
+    .item-card__button {
+      font-size: 1rem;
+    }
+  }
+  
+  /* Extra large devices (large desktops, 1200px and up) */
+  @media (min-width: 1200px) {
+    .item-card {
+      width: 220px;
+      height: 330px;
+    }
+    
+    .item-card__title {
+      font-size: 1.2rem;
+    }
+    
+    .item-card__price {
+      font-size: 1.4rem;
+    }
+  }
+  
+  /* Button states (unchanged) */
+  .item-card__button:hover {
+    background: #333;
+    transform: translateY(-2px);
+  }
+  
+  .item-card__button:active {
+    transform: translateY(0);
+  }

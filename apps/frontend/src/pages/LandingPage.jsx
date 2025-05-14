@@ -5,13 +5,27 @@ import Title from "../components/Title"
 import Wheel from "../components/Wheel";
 import AutoCarousel from "../components/VerticalCarousel";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 const LandingPage = () => {
   const [isShortScreen, setIsShortScreen] = useState(false);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
+    const chechAuth = async () => {
+      try {
+        const response = await axios.get(
+          "https://xuujlvb9tj.execute-api.us-east-1.amazonaws.com/api/check-auth",
+          {
+            withCredentials: true,
+          }
+        );
+        setIsLoggedIn(true);
+      } catch (error) {
+        setIsLoggedIn(false);
+      }
+    };
+    chechAuth();
     const checkScreenSize = () => {
-      setIsShortScreen(window.innerHeight < 650);
+      setIsShortScreen(window.innerHeight < 640);
     };
 
     // Check on mount and on resize
@@ -27,7 +41,7 @@ const LandingPage = () => {
     <div className={`landing-page ${isShortScreen ? 'short-screen' : ''}`}>
       <div className="page-content">
         <AutoCarousel />
-        <Navbar fromPage="landingPage"/>
+        <Navbar fromPage="landingPage" isLoggedIn = {isLoggedIn}/>
         <Title/>
         {/* <Contact/> */}
         <Wheel />
