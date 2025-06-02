@@ -42,14 +42,12 @@ A full-featured E-Commerce web application featuring a Customer Portal, Admin Po
 ```text
 E-Commerce-App/
 │
-├── admin-portal/        # Admin dashboard source code
-├── customer-portal/     # Customer-facing storefront source code
+├── apps/admin/        # Admin dashboard source code
+├── apps/frontend/     # Customer-facing storefront source code
 ├── backend/             # Backend API source code
 ├── README.md
 └── ...
 ```
-
-*(Adjust folder names as required by your actual structure.)*
 
 ---
 
