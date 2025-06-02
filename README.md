@@ -1,6 +1,3 @@
-Certainly! Here’s a comprehensive README.md in Markdown format for your E-Commerce-App, reflecting its Admin Portal, Customer Portal, and Backend structure.
-
----
 
 # E-Commerce App
 
